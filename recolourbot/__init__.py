@@ -3,8 +3,13 @@ import logging
 import logging.handlers
 from os import path, makedirs
 from contextlib import contextmanager
+from pprint import pformat
+from textwrap import indent
+
 from mastodon import Mastodon
 
+# n.b. to have multiline syslog you need on /etc/rsyslog.d/something.conf:
+#    $EscapeControlCharactersOnReceive off
 class Config:
     """Populated from config.yaml.  Methods work as dictionary keys (like ruby openstruct).
 
@@ -93,7 +98,10 @@ def mastoapi(*args, **kwds):
         kwds['api_base_url'] = config.base_url
 
     config.log.info("Opening Mastodon API session…")
-    config.log.debug("login args are: %s; %s", str(args), str(kwds))
+    config.log.debug("login args are: %s,\n%s",
+                     str(args),
+                     indent(pformat(kwds), '  '),
+    )
     masto = Mastodon(*args, **kwds)
     try:
         yield masto
