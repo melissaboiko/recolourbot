@@ -1,0 +1,23 @@
+# do always include the @instance here
+acct: recolourbot@yourinstance.com
+
+# email that bot account uses to login
+email: bot_email@example.com
+
+# account to be held responsible for the bot :)
+admin_acct: your_personal_account@yourinstance.com
+
+# password to bot account
+password: bots_super_secret_password
+
+base_url: https://yourinstance.com
+
+# create an account on DeepAI to get one.
+deepai_api_key: quickstart-QUdJIGlzIGNvbWluZy4uLi4K
+
+# name of your Mastodon app
+appname: recolourbot-app
+
+# you can leave these
+client_cred: credentials/recolourbot_clientcred.secret
+login_cred:  credentials/recolourbot_logincred.secret

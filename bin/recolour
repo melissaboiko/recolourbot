@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+from os import path
+import sys
+
+# parent of this script
+basedir = path.abspath(
+    path.join(
+        path.abspath(path.dirname(__file__)),
+        '..'
+    )
+)
+sys.path.append(basedir)
+
+from recolourbot.recolour import recolour
+
+recolour(sys.argv[1], sys.argv[2])
