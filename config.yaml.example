@@ -18,6 +18,9 @@ deepai_api_key: quickstart-QUdJIGlzIGNvbWluZy4uLi4K
 # name of your Mastodon app
 appname: recolourbot-app
 
+# debug, info, warning, error, critical
+loglevel: info
+
 # you can leave these
 client_cred: credentials/recolourbot_clientcred.secret
 login_cred:  credentials/recolourbot_logincred.secret

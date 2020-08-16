@@ -1,4 +1,6 @@
 import yaml
+import logging
+import logging.handlers
 from os import path, makedirs
 from contextlib import contextmanager
 from mastodon import Mastodon
@@ -26,6 +28,16 @@ class Config:
             for key, val in y.items():
                 setattr(self, key, val)
 
+        self.log = logging.getLogger('recolourbot')
+        self.log.setLevel(getattr(logging, self.loglevel.upper()))
+        # Linux-specific
+        handler = logging.handlers.SysLogHandler(address = '/dev/log')
+        handler.setFormatter(logging.Formatter(
+            fmt="%(name)s: %(levelname)s: %(message)s"
+        ))
+        self.log.addHandler(handler)
+        self.log.debug('Read conffile and set up logging.')
+
         self.login = self.acct.split('@')[0]
 
         self.client_cred = path.abspath(path.join(self.basedir, self.client_cred))
@@ -33,11 +45,14 @@ class Config:
 
         for d in (path.dirname(self.client_cred), path.dirname(self.login_cred)):
             if d and not path.isdir(d):
+                self.log.info('mkdir %s for credentials', d)
                 makedirs(d)
 
         if not path.isfile(self.client_cred):
+            self.log.info('Registering app…')
             self.__createapp()
         if not path.isfile(self.login_cred):
+            self.log.info('Logging in…')
             self.__login()
 
     def __createapp(self):
@@ -77,6 +92,8 @@ def mastoapi(*args, **kwds):
     if 'api_base_url' not in kwds:
         kwds['api_base_url'] = config.base_url
 
+    config.log.info("Opening Mastodon API session…")
+    config.log.debug("login args are: %s; %s", str(args), str(kwds))
     masto = Mastodon(*args, **kwds)
     try:
         yield masto
