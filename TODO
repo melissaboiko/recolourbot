@@ -1,6 +1,6 @@
  - Ignore toots by self.
- - Logging.
  - Basic error handling at least.
+ - Look into pagination.
  - Delete function.
  - push notification?
  - tests lol
