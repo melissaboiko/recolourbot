@@ -158,7 +158,8 @@ def handle_mention(mastoapi, notidict):
             extraargs[arg] = target_status[arg]
 
     log.info('Will post reply with the new images…')
-    log.debug('Args:\n%s', pformat((status, media_ids, untag, visibility, extraargs)))
+    log.debug('Args:\n%s', indent(pformat((status, new_imagedicts, visibility, extraargs)),
+                                  '  '))
     newtoot = mastoapi.status_reply(status, "Recoloured :)",
                                     media_ids=new_imagedicts,
                                     untag=True,
@@ -180,6 +181,6 @@ def check_notifications():
         if not mentions:
             log.info('No mentions, nothing to do.')
         else:
-            log.info('%d mentions to process.', len(mentions))
+            log.info('Mentions to process: %d', len(mentions))
             for mention in mentions:
-                handle_mention(masto, noti)
+                handle_mention(masto, mention)
