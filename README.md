@@ -2,9 +2,12 @@ A recolourbot
 =============
 
 Mastodon bot that fetches images from a toot, converts them to black-and-white,
-recolours them using DeepAI colorising service, and replies to the toot with the
+recolours them using DeepAI colourising service, and replies to the toot with the
 recoloured version.  Sometimes you get a new outfit, though often it’s “same but
 in neutral colours”.
+
+An instance is presently running on my raspberry at
+@recolourbot@pao.namakajiri.net .
 
 Interacting
 ===========
@@ -18,8 +21,8 @@ Running
 
  - Install dependencies:
 
-    sudo apt install python3-pil
-    sudo pip3 install Mastodon.py
+       sudo apt install python3-pil
+       sudo pip3 install Mastodon.py
 
  - Create an account for the bot in a bot-friendly instance (or your own). Make
    sure to fill in a nice description and your contact account.
@@ -31,3 +34,5 @@ Caveats
 =======
 
 This is very raw, beta, untested etc.
+
+—Melissa @elilla@pao.namakajiri.net
