@@ -1,10 +1,8 @@
 import requests
 import sys
 from tempfile import NamedTemporaryFile
-from pprint import pprint, pformat
-from textwrap import indent
 
-from recolourbot import config, mastoapi
+from recolourbot import config, mastoapi, logwrap
 from recolourbot.recolour import recolour
 
 log = config.log
@@ -40,7 +38,7 @@ def upload_recolour_of(mastoapi, imagedict, authoracct):
     """
 
     log.info('Will recolour image %s from %s and upload.', imagedict['id'], authoracct)
-    log.debug('Image dict:\n%s', indent(pformat(imagedict), prefix='  '))
+    log.debug('Image dict:\n%s', logwrap(imagedict))
 
     if 'description' in imagedict and imagedict['description']:
         orig_desc = imagedict['description']
@@ -99,7 +97,7 @@ def handle_mention(mastoapi, notidict):
     Returns new status on success, None if the mention was ignored."""
 
     log.info('Handling notification %s.', notidict['id'])
-    log.debug('%s', indent(pformat(notidict), '  '))
+    log.debug('%s', logwrap(notidict))
 
     status = notidict['status']
 
@@ -158,8 +156,8 @@ def handle_mention(mastoapi, notidict):
             extraargs[arg] = target_status[arg]
 
     log.info('Will post reply with the new images…')
-    log.debug('Args:\n%s', indent(pformat((status, new_imagedicts, visibility, extraargs)),
-                                  '  '))
+    log.debug('Args:\n%s', logwrap((status, new_imagedicts, visibility, extraargs)))
+
     newtoot = mastoapi.status_reply(status, "Recoloured :)",
                                     media_ids=new_imagedicts,
                                     untag=True,

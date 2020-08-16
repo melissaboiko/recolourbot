@@ -4,7 +4,7 @@ import logging.handlers
 from os import path, makedirs
 from contextlib import contextmanager
 from pprint import pformat
-from textwrap import indent
+import textwrap
 
 from mastodon import Mastodon
 
@@ -82,8 +82,21 @@ class Config:
 
 config = Config()
 
+def logwrap(obj, indent=2, prefix=None):
+    """Indent pretty-printed object with spaces plus a prefix.
+
+    Default prefix is name of logger.  Used for multiline logging while keeping
+    the logger name on all lines, for grepping."""
+
+    if not prefix:
+        prefix = config.log.name
+
+    return textwrap.indent(pformat(obj),
+                           ' ' * indent + prefix + ': ')
+
 @contextmanager
 def mastoapi(*args, **kwds):
+
     """Wrapper over Mastodon() for with-statements:
 
     >>> with mastoapi() as masto:
@@ -100,7 +113,7 @@ def mastoapi(*args, **kwds):
     config.log.info("Opening Mastodon API session…")
     config.log.debug("login args are: %s,\n%s",
                      str(args),
-                     indent(pformat(kwds), '  '),
+                     logwrap(kwds),
     )
     masto = Mastodon(*args, **kwds)
     try:
